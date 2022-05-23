@@ -17,12 +17,12 @@ const userSchema = new Schema(
       // match valid email address
     },
     thoughts: {
-      type: Schema.Types.Array, 
-      ref: "thoughtSchema.thoughtId",
+      type: Schema.Types.ObjectId, 
+      ref: "thought",
     },
     friends: {
-      type: Schema.Types.Array, 
-      ref: "thoughtSchema.thoughtId",
+      type: Schema.Types.ObjectId, 
+      ref: "user",
     },
     // reactions: [reactionSchema],
   },
