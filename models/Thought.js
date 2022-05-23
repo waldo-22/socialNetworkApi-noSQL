@@ -8,7 +8,7 @@ const thoughtSchema = new Schema(
     thoughtText: {
       type: String,
       required: true,
-      maxlength: 280,
+      maxLength: 280,
       minlength: 1
     },
     createdAt: {
@@ -20,9 +20,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,      
     },
-    reactions: {
       reactions: [reactionSchema],
-    },
   },
   {
     toJSON: {

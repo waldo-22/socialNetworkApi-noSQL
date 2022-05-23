@@ -9,7 +9,7 @@ const reactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      maxlength: 280,
+      maxLength: 280,
     },
     userName: {
       type: String,
@@ -18,14 +18,15 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: createdAtVal => dateFormat(createdAtVal, "mmm dS, yyyy 'at' hh:MMtt")
+      // get: createdAtVal => dateFormat(createdAtVal, "mmm dS, yyyy 'at' hh:MMtt")
     },
+    id: false,
   },
   {
     toJSON: {
       getters: true,
+      virtuals: true,
     },
-    id: false,
   }
 );
 
