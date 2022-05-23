@@ -2,26 +2,26 @@ const { ObjectId } = require('mongoose').Types;
 const { Thought, User } = require('../models');
 
 // Aggregate function to get the number of students overall
-const headCount = async () =>
+const thoughtCount = async () =>
   Thought.aggregate()
     .count('thoughtCount')
     .then((numberOfThoughts) => numberOfThoughts);
 
 // Aggregate function for getting the overall grade using $avg
-const grade = async (thoughtId) =>
-  Thought.aggregate([
-    // only include the given thought by using $match
-    { $match: { _id: ObjectId(thoughtId) } },
-    {
-      $unwind: '$reactions',
-    },
-    {
-      $group: {
-        _id: ObjectId(thoughtId),
-        overallGrade: { $avg: '$reactions.score' },
-      },
-    },
-  ]);
+// const grade = async (thoughtId) =>
+//   Thought.aggregate([
+//     // only include the given thought by using $match
+//     { $match: { _id: ObjectId(thoughtId) } },
+//     {
+//       $unwind: '$reactions',
+//     },
+//     {
+//       $group: {
+//         _id: ObjectId(thoughtId),
+//         overallGrade: { $avg: '$reactions.score' },
+//       },
+//     },
+//   ]);
 
 module.exports = {
   // Get all thoughts
@@ -30,7 +30,7 @@ module.exports = {
       .then(async (thoughts) => {
         const thoughtObj = {
           thoughts,
-          headCount: await headCount(),
+          thoughtCount: await thoughtCount(),
         };
         return res.json(thoughtObj);
       })
@@ -48,7 +48,7 @@ module.exports = {
           ? res.status(404).json({ message: 'No thought with that ID' })
           : res.json({
               thought,
-              grade: await grade(req.params.thoughtId),
+              // grade: await grade(req.params.thoughtId),
             })
       )
       .catch((err) => {
@@ -64,6 +64,7 @@ module.exports = {
   },
   // Delete a thought and remove them from the User
   deleteThought(req, res) {
+    console.log(req.params.userId)
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought

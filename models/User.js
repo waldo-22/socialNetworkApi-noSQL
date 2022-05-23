@@ -4,22 +4,27 @@ const reactionSchema = require('./Reaction');
 // Schema to create user model
 const userSchema = new Schema(
   {
-    first: {
+    userName: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    email: {
       type: String,
       required: true,
-      max_length: 50,
+      unique: true,
+      // match valid email address
     },
-    last: {
-      type: String,
-      required: true,
-      max_length: 50,
+    thoughts: {
+      type: Schema.Types.Array, 
+      ref: "thoughtSchema.thoughtId",
     },
-    github: {
-      type: String,
-      required: true,
-      max_length: 50,
+    friends: {
+      type: Schema.Types.Array, 
+      ref: "thoughtSchema.thoughtId",
     },
-    reactions: [reactionSchema],
+    // reactions: [reactionSchema],
   },
   {
     toJSON: {
